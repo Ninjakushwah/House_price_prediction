@@ -1,75 +1,69 @@
 # House Price Prediction Model
 
-A machine learning project that predicts house prices.
+## Problem
+Real estate agents estimate house values manually — slow and inconsistent. 
+This model automates predictions with 89% accuracy.
 
-## What Does This Do?
+## Dataset & Approach
 
-This model looks at house features and predicts how much the house will cost.
+**Data:**
+- 1,460 houses from Kaggle
+- 81 original features (structural, garage, basement, etc.)
+- Split: 1,168 training, 292 testing (80/20)
 
-**Example:**
-- Input: House size = 2000 sq ft, Bedrooms = 3, Quality = Good
-- Output: Predicted Price = 250,000
-
-## Model Accuracy
-
-- R² Score: 0.8952** ✓ (89.52% accurate)
-- Average Error: 17,481
-- Better than: Linear Regression (65% accurate)
-
-## Dataset
-
-- 1,460 houses
-- 81 house features
-- Source: Kaggle
-
-## How I Built It
-
-1. Data Cleaning - Fixed missing values
-2. Feature Engineering - Converted text to numbers
-3. Model Training - Used Random Forest
-4. Comparison - Random Forest better than Linear Regression
-
-## Technologies
-
-Python, Pandas, NumPy, Scikit-learn, Matplotlib, Streamlit
-
-## Files
-
-- "House_Price_prediction.py" - Training code
-- "app.py" - Web app
-- "house_price_model.pkl" - Saved model
-- "actual_vs_predicted.png" - Performance graph
-- "residuals.png" - Error graph
-
-## How to Use
-
-"""bash
-pip install -r requirements.txt
-streamlit run app.py
-"""
-
-Open: http://localhost:8501
+**Process:**
+1. Missing value handling: Median for numerical, mode for categorical
+2. Feature encoding: One-hot encoded 23 categorical features → 155 total features
+3. Model training: Random Forest (100 trees, default parameters)
+4. Evaluation: Compared against Linear Regression baseline
 
 ## Results
 
-**Random Forest:**
-- R² = 0.8952 (89.52% accurate)
-- MAE = 17,481
-- RMSE = 28,352
+**Random Forest Performance:**
+- R² Score: 0.8952 (89.52%)
+- Mean Absolute Error: $17,481
+- RMSE: $28,352
 
-**vs Linear Regression:**
-- R² = 0.6555 (65.55%)
-- MAE = 20,232
-- RMSE = 51,405
+**vs Baseline (Linear Regression):**
+- R² Score: 0.6555 (65.55%)
+- 24% improvement in R² by capturing non-linear patterns
 
-## Skills
+## Why Random Forest?
 
- Data preprocessing  
- Feature engineering  
- Model comparison  
- Model evaluation (R², MAE, RMSE)  
- Web app development (Streamlit)  
- Python, Pandas, Scikit-learn  
+Feature importance analysis showed Over all quality (54%) and GrLivArea (15%) dominate 
+the prediction. This concentration indicates non-linear feature interactions — which 
+Linear Regression cannot capture but Random Forest handles well.
 
- 
-**Last Update**:08 May 2026
+## Model Limitation
+
+Residual analysis revealed **heteroscedasticity**: 
+- Cheap houses ($100-300K): ±$30K prediction error (tight)
+- Expensive houses ($400K+): ±$150K prediction error (loose)
+
+**Insight:** Luxury house pricing likely depends on external factors (location prestige, 
+market trends) not captured in structural features alone. Model is reliable for typical 
+properties but needs refinement for high-end market.
+
+## Tech Stack
+Python, Pandas, NumPy, Scikit-learn, Matplotlib, Streamlit
+
+## Files
+- 'House_Price_Prediction.py` — Model training & evaluation
+- 'app.py` — Streamlit web interface
+- 'house_price_model.pkl` — Trained Random Forest model
+- 'train.csv` — Kaggle dataset
+
+## How to Run
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+Open: http://localhost:8501
+
+## Next Steps (If Improving)
+- Stratified cross-validation for robust accuracy estimate
+- Weighted loss function to penalize expensive house errors more
+- Feature engineering for luxury segment 
+
+---
+Last updated: May 10, 2026
