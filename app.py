@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
+
 
 # page config
 st.set_page_config(page_title="House Price Predictor", layout="wide")
@@ -11,14 +11,7 @@ st.set_page_config(page_title="House Price Predictor", layout="wide")
 st.title("House Price Prediction")
 st.write("Enter the details of the house to predict its price:")
 
-# Load Model
-try:
-    model = joblib.load("house_price_model.pkl")
-    st.success("Model loaded successfully!")
-    
-except:
-    st.error("Model file not found.make sure  house_price_model.pkl exists")
-    st.stop() 
+
 
 # displya image
 
